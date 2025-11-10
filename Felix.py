@@ -9,21 +9,22 @@ from config import API_ID, API_HASH, SESSION, OWNER_ID
 # --- INISIASI CLIENT ---
 client = TelegramClient(SESSION, API_ID, API_HASH)
 
-# --- FUNGSI: LOAD SEMUA PLUGIN ---
+# --- FUNGSI LOAD PLUGIN ---
 def load_plugins():
     print(Fore.CYAN + "\n🔌 Memuat plugin...")
-    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
-    for filename in os.listdir(plugins_dir):
+    for filename in os.listdir("plugins"):
         if filename.endswith(".py") and filename != "__init__.py":
-            modulename = f"plugins.{filename[:-3]}"
+            name = filename[:-3]
             try:
-                if modulename in sys.modules:
-                    importlib.reload(sys.modules[modulename])
-                else:
-                    importlib.import_module(modulename)
-                print(Fore.GREEN + f"✅ Plugin '{filename}' dimuat")
+                module = importlib.import_module(f"plugins.{name}")
+                # cari semua event handler yang pakai @events.register
+                for attr in dir(module):
+                    obj = getattr(module, attr)
+                    if hasattr(obj, "handler") and hasattr(obj.handler, "callback"):
+                        client.add_event_handler(obj.handler.callback, obj.handler)
+                print(Fore.GREEN + f"✅ Plugin '{name}' dimuat")
             except Exception as e:
-                print(Fore.RED + f"❌ Gagal load {filename}: {e}")
+                print(Fore.RED + f"❌ Gagal memuat '{name}': {e}")
     print(Style.RESET_ALL)
 
 # --- FUNGSI: WATCH PLUGIN (AUTO RELOAD) ---
