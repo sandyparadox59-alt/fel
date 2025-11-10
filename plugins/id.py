@@ -1,7 +1,6 @@
 from telethon import events
+from config import OWNER_ID
 
-@events.register(events.NewMessage(outgoing=True, pattern=r"\.id"))
-async def id_cmd(event):
-    chat = await event.get_chat()
-    sender = await event.get_sender()
-    await event.respond(f"**Chat ID:** `{chat.id}`\n**User ID:** `{sender.id}`")
+@events.register(events.NewMessage(outgoing=True, pattern=r"\.owner"))
+async def owner(event):
+    await event.respond(f"👑 Owner ID: `{OWNER_ID}`")
