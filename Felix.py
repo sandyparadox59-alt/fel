@@ -14,21 +14,33 @@ client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
 def load_plugins():
     print(Fore.CYAN + "\n🔌 Memuat plugin...")
     plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
+
     for filename in os.listdir(plugins_dir):
         if filename.endswith(".py") and filename != "__init__.py":
             name = filename[:-3]
             try:
-                # Hapus cache modul dulu
-                if f"plugins.{name}" in sys.modules:
-                    importlib.reload(sys.modules[f"plugins.{name}"])
+                module_name = f"plugins.{name}"
+
+                # Reload jika sudah ada
+                if module_name in sys.modules:
+                    module = importlib.reload(sys.modules[module_name])
                 else:
-                    importlib.import_module(f"plugins.{name}")
+                    module = importlib.import_module(module_name)
+
+                # Tambahkan semua event Telethon dari plugin ke client
+                for attr_name in dir(module):
+                    obj = getattr(module, attr_name)
+                    if isinstance(obj, events.common.EventBuilder):
+                        client.add_event_handler(obj.function, obj)
+                        print(Fore.YELLOW + f"🔗 Event terdaftar dari {name}: {obj}")
+
                 print(Fore.GREEN + f"✅ Plugin '{name}' dimuat")
             except Exception as e:
                 print(Fore.RED + f"❌ Gagal memuat '{name}': {e}")
+
     print(Style.RESET_ALL)
 
-# === Fungsi reload otomatis ===
+# === Watch reload otomatis ===
 async def watch_plugins():
     last_mtime = {}
     plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
@@ -50,19 +62,16 @@ async def watch_plugins():
                     last_mtime[filename] = mtime
         await asyncio.sleep(3)
 
-# === Log semua pesan masuk/keluar ===
+# === Logger semua pesan ===
 @client.on(events.NewMessage)
 async def logger(event):
     sender = await event.get_sender()
-    sender_name = sender.first_name if sender else "Unknown"
-    chat_title = (await event.get_chat()).title if event.is_group else "Private"
-    print(
-        Fore.MAGENTA
-        + f"[MSG] {sender_name} ({chat_title}) -> {event.text}"
-        + Style.RESET_ALL
-    )
+    name = sender.first_name if sender else "Unknown"
+    chat = await event.get_chat()
+    chat_name = getattr(chat, "title", "Private")
+    print(Fore.MAGENTA + f"[{chat_name}] {name}: {event.text}" + Style.RESET_ALL)
 
-# === HELP bawaan ===
+# === Command help bawaan ===
 @client.on(events.NewMessage(outgoing=True, pattern=r"\.help"))
 async def help_cmd(event):
     text = (
@@ -76,12 +85,12 @@ async def help_cmd(event):
     )
     await event.respond(text)
 
-# === Menampilkan daftar plugin aktif ===
+# === Command menu plugin ===
 @client.on(events.NewMessage(outgoing=True, pattern=r"\.menu"))
 async def menu_cmd(event):
     plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
     plugins = [f[:-3] for f in os.listdir(plugins_dir) if f.endswith(".py") and f != "__init__.py"]
-    text = "**🔌 Plugin aktif:**\n" + "\n".join(f"• `{p}`" for p in plugins)
+    text = "**🔌 Plugin aktif:**\n" + "\n".join(f"• {p}" for p in plugins)
     await event.respond(text)
 
 # === Start userbot ===
