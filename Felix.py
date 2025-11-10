@@ -267,6 +267,18 @@ def rollback_plugin(old_record):
     except Exception:
         pass
     return None
+    
+@client.on(events.NewMessage)
+async def global_prefix_handler(event):
+    msg_text = event.raw_text.strip()
+    if not msg_text:
+        return
+    prefix_used = next((p for p in PREFIXES if msg_text.startswith(p)), None)
+    if not prefix_used:
+        return
+    event._prefix_used = prefix_used
+    event._command = msg_text[len(prefix_used):].split()[0].lower()
+    # plugin handlers still receive event
 
 # initial load of all plugins
 def initial_load():
