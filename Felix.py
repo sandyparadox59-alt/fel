@@ -2,13 +2,10 @@ import os
 import asyncio
 from telethon import TelegramClient, events
 from colorama import Fore, Style
-from config import API_ID, API_HASH, SESSION, OWNER_ID
-
-SESSION_PATH = os.path.join("..", SESSION)
+from config import API_ID, API_HASH, SESSION, OWNER_ID, RESELLERS 
 
 # === Inisialisasi client ===
-client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
-RESELLERS = [1234567890, 987654321]  # ID Telegram reseller
+client = TelegramClient(SESSION, API_ID, API_HASH)
 
 # === Logger semua pesan ===
 @client.on(events.NewMessage)
