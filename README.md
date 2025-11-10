@@ -107,6 +107,18 @@ RESELLERS = [987654321, 1122334455]
 
 ---
 
+## 🧩𝘊𝘳𝘦𝘢𝘵𝘦 𝘈𝘱𝘪 𝘐𝘥 𝘈𝘱𝘪 𝘏𝘢𝘴𝘩
+
+https://my.telegram.org
+
+```bash
+𝘔𝘢𝘴𝘶𝘬𝘢𝘯 𝘯𝘢𝘮𝘢 𝘵𝘪𝘵𝘭𝘦 , shorts name 𝘣𝘦𝘣𝘢𝘴
+𝘜𝘯𝘵𝘶𝘬 𝘭𝘢𝘪𝘯𝘺𝘢 𝘵𝘪𝘥𝘢𝘬 𝘶𝘴𝘢𝘩 𝘥𝘪 𝘪𝘴𝘪 
+𝘋𝘢𝘯 𝘬𝘭𝘪𝘬 𝘤𝘳𝘦𝘢𝘵𝘦 𝘭𝘢𝘭𝘶 𝘥𝘰𝘯𝘦 🗿😹 
+```
+
+---
+
 ## 🧰 Tips Tambahan
 💡 Jalankan bot di background (VPS):
 ```bash
