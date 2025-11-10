@@ -2,7 +2,7 @@
 # Telethon userbot: plugin hot-reload yang stabil, anti-spam, rollback on error.
 # - Place this file in project root
 # - Create folder "plugins" with plugin files (eg. plugins/ping.py)
-# - Create config.py with API_ID, API_HASH, SESSION
+# - Create config.py with API_ID, API_HASH, SESSION, OWNER_ID, RESELLERS
 #
 # Plugin API (recommended):
 #   def setup(client, db, logger):
@@ -29,15 +29,8 @@ from zoneinfo import ZoneInfo
 from telethon import TelegramClient, events
 from colorama import Fore, Style, init as color_init
 
-# ----------------------------
-# CONFIG: create config.py with these variables
-# ----------------------------
-# Example config.py:
-# API_ID = 1234567
-# API_HASH = "your_api_hash"
-# SESSION = "session_name"
 try:
-    from config import API_ID, API_HASH, SESSION
+    from config import API_ID, API_HASH, SESSION, OWNER_ID, RESELLERS, PREFIXES
 except Exception as e:
     print("Missing config.py or variables. Create config.py with API_ID, API_HASH, SESSION")
     raise
