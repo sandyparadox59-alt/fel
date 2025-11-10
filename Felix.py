@@ -4,10 +4,11 @@ import importlib
 import asyncio
 from telethon import TelegramClient, events
 from colorama import Fore, Style
-from config import API_ID, API_HASH, SESSION, OWNER_ID
+from config import API_ID, API_HASH, SESSION, OWNER_ID 
 
 # --- INISIASI CLIENT ---
-client = TelegramClient(SESSION, API_ID, API_HASH)
+SESSIONx = os.path.join("..", SESSION)
+client = TelegramClient(SESSIONx, API_ID, API_HASH)
 
 # --- FUNGSI LOAD PLUGIN ---
 def load_plugins():
