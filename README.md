@@ -1,21 +1,138 @@
-1️⃣ Update sistem
+# 🤖 FelixBaseUserBot
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/sandyparadox59-alt/fel/refs/heads/main/assets/felix-banner.png" alt="FelixBaseUserBot Banner" width="80%">
+  <br><br>
+  <b>💬 Telegram Userbot sederhana berbasis Python & Telethon</b><br>
+  🔹 Dibuat sebagai base untuk pengembangan userbot modular
+  <br><br>
+  <a href="https://github.com/sandyparadox59-alt/fel"><img src="https://img.shields.io/github/stars/sandyparadox59-alt/fel?color=yellow&style=for-the-badge"></a>
+  <a href="https://t.me"><img src="https://img.shields.io/badge/Telegram-Join%20Chat-blue?style=for-the-badge&logo=telegram"></a>
+</div>
+
+---
+
+## ⚙️ Fitur Dasar
+
+✅ **Tanpa plugin** – Ringan dan langsung jalan  
+✅ **Command otomatis** – Ketik di Telegram dengan awalan titik (.)  
+✅ **Logging chat** – Semua pesan masuk dan keluar tercatat di terminal  
+✅ **Khusus owner/reseller** – Fitur forward ke seluruh grup hanya untuk user tertentu  
+✅ **Mudah dikembangkan** – Bisa kamu ubah jadi sistem plugin kapan saja  
+
+---
+
+## 🧠 Command Tersedia
+
+| Command | Fungsi |
+|----------|--------|
+| `.help` | Menampilkan menu bantuan |
+| `.ping` | Cek kecepatan respon bot |
+| `.id` | Menampilkan ID pengguna atau chat |
+| `.teruskan` / `.fw` | Forward pesan ke semua grup (hanya untuk owner/reseller) |
+
+---
+
+## 🚀 Cara Install
+
+### 1️⃣ Update sistem
+```bash
 apt update && apt upgrade -y
+```
 
-2️⃣ Install Python, pip, dan Git
+### 2️⃣ Install Python, pip, dan Git
+```bash
 apt install python3 python3-pip git -y
+```
 
-3️⃣ Install dependensi Python
+### 3️⃣ Install dependensi Python
+```bash
 pip install telethon colorama
-⚠️ Kalau muncul error externally-managed-environment, jalankan:
-
+```
+⚠️ Jika muncul error `externally-managed-environment`, gunakan:
+```bash
 pip install telethon colorama --break-system-packages
-4️⃣ Jalankan userbot
+```
+
+---
+
+### 4️⃣ Download source code
+```bash
+git clone https://github.com/sandyparadox59-alt/fel.git
+cd fel
+```
+
+---
+
+### 5️⃣ Jalankan Userbot
+```bash
 python3 Felix.py
+```
 
-Please enter your phone (or bot token): nomor elpon
-Please enter the code you received: otp
-jika lu ada f2a tar paling di suruh masukin pw
-jik tidak ada skip langsung jalan botnya
+Lalu isi data berikut saat diminta:
+```
+Please enter your phone (or bot token): 62xxxxxxxxxx
+Please enter the code you received: [OTP]
+Please enter your password: [jika ada 2FA]
+```
 
+Jika login berhasil ✅, maka bot akan langsung aktif dan menampilkan:
+```
+🚀 Menjalankan Userbot Telegram tanpa plugin...
+✅ Userbot aktif! Ketik `.help` di Telegram.
+```
 
-kembakang terus sampai bagus saya hanya membuat base aja
+---
+
+## 📁 Struktur Folder
+```
+fel/
+├── Felix.py         # File utama userbot
+├── config.py        # Konfigurasi API dan Owner
+├── requirements.txt # Dependensi Python (opsional)
+└── README.md        # Dokumentasi
+```
+
+---
+
+## 🧩 Konfigurasi `config.py`
+Buat file `config.py` di folder yang sama, lalu isi:
+```python
+API_ID = 123456
+API_HASH = "abcdef1234567890abcdef1234567890"
+SESSION = "FelixSession"
+OWNER_ID = 123456789
+RESELLERS = [987654321, 1122334455]
+```
+
+---
+
+## 🧰 Tips Tambahan
+💡 Jalankan bot di background (VPS):
+```bash
+nohup python3 Felix.py &
+```
+💡 Untuk menghentikan bot:
+```bash
+ps aux | grep Felix.py
+kill -9 [PID]
+```
+
+---
+
+## 📸 Preview
+<div align="center">
+  <img src="https://raw.githubusercontent.com/sandyparadox59-alt/fel/refs/heads/main/assets/felix-preview.png" alt="FelixBaseUserBot Preview" width="70%">
+</div>
+
+---
+
+## 🧑‍💻 Author
+**Created by [@sandyparadox59-alt](https://github.com/sandyparadox59-alt)**  
+> “Aku hanya membuat base — kembangkan sesukamu 😎”
+
+---
+
+## ⭐ Support
+Jika kamu suka proyek ini, bantu dengan menekan ⭐ **Star** di repositori ini 🙏  
+Kamu juga bisa fork dan ubah jadi sistem plugin penuh sesuai kebutuhanmu!
