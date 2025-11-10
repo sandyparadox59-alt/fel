@@ -4,35 +4,35 @@ import importlib
 import asyncio
 from telethon import TelegramClient, events
 from colorama import Fore, Style
-from config import API_ID, API_HASH, SESSION, OWNER_ID 
+from config import API_ID, API_HASH, SESSION, OWNER_ID
 
-# --- INISIASI CLIENT ---
-SESSIONx = os.path.join("..", SESSION)
-client = TelegramClient(SESSIONx, API_ID, API_HASH)
+# === Inisialisasi client ===
+SESSION_PATH = os.path.join("..", SESSION)
+client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
 
-# --- FUNGSI LOAD PLUGIN ---
+# === Fungsi memuat plugin ===
 def load_plugins():
     print(Fore.CYAN + "\n🔌 Memuat plugin...")
-    for filename in os.listdir("plugins"):
+    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
+    for filename in os.listdir(plugins_dir):
         if filename.endswith(".py") and filename != "__init__.py":
             name = filename[:-3]
             try:
-                module = importlib.import_module(f"plugins.{name}")
-                # cari semua event handler yang pakai @events.register
-                for attr in dir(module):
-                    obj = getattr(module, attr)
-                    if hasattr(obj, "handler") and hasattr(obj.handler, "callback"):
-                        client.add_event_handler(obj.handler.callback, obj.handler)
+                # Hapus cache modul dulu
+                if f"plugins.{name}" in sys.modules:
+                    importlib.reload(sys.modules[f"plugins.{name}"])
+                else:
+                    importlib.import_module(f"plugins.{name}")
                 print(Fore.GREEN + f"✅ Plugin '{name}' dimuat")
             except Exception as e:
                 print(Fore.RED + f"❌ Gagal memuat '{name}': {e}")
     print(Style.RESET_ALL)
 
-# --- FUNGSI: WATCH PLUGIN (AUTO RELOAD) ---
+# === Fungsi reload otomatis ===
 async def watch_plugins():
     last_mtime = {}
+    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
     while True:
-        plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
         for filename in os.listdir(plugins_dir):
             if filename.endswith(".py") and filename != "__init__.py":
                 filepath = os.path.join(plugins_dir, filename)
@@ -50,7 +50,19 @@ async def watch_plugins():
                     last_mtime[filename] = mtime
         await asyncio.sleep(3)
 
-# --- HELP DEFAULT ---
+# === Log semua pesan masuk/keluar ===
+@client.on(events.NewMessage)
+async def logger(event):
+    sender = await event.get_sender()
+    sender_name = sender.first_name if sender else "Unknown"
+    chat_title = (await event.get_chat()).title if event.is_group else "Private"
+    print(
+        Fore.MAGENTA
+        + f"[MSG] {sender_name} ({chat_title}) -> {event.text}"
+        + Style.RESET_ALL
+    )
+
+# === HELP bawaan ===
 @client.on(events.NewMessage(outgoing=True, pattern=r"\.help"))
 async def help_cmd(event):
     text = (
@@ -64,7 +76,15 @@ async def help_cmd(event):
     )
     await event.respond(text)
 
-# --- STARTUP ---
+# === Menampilkan daftar plugin aktif ===
+@client.on(events.NewMessage(outgoing=True, pattern=r"\.menu"))
+async def menu_cmd(event):
+    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
+    plugins = [f[:-3] for f in os.listdir(plugins_dir) if f.endswith(".py") and f != "__init__.py"]
+    text = "**🔌 Plugin aktif:**\n" + "\n".join(f"• `{p}`" for p in plugins)
+    await event.respond(text)
+
+# === Start userbot ===
 async def main():
     print(Fore.YELLOW + "🚀 Menjalankan Userbot Telegram...")
     load_plugins()
