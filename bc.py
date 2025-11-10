@@ -1,8 +1,6 @@
 from telethon import events
 import asyncio
 
-# === DAFTAR PREFIX & COMMAND ===
-PREFIXES = ['.', '!', '#', '?']
 COMMANDS_FORWARD = {
     'bcgc': 'gc',
     'bc': 'user',
@@ -16,16 +14,8 @@ def setup(client, db, logger, OWNER_ID, RESELLERS):
     @client.on(events.NewMessage)
     async def handler(event):
         try:
-            msg_text = event.raw_text.strip()
-            if not msg_text:
-                return
-
-            # === CEK PREFIX ===
-            prefix_used = next((p for p in PREFIXES if msg_text.startswith(p)), None)
-            if not prefix_used:
-                return
-
-            cmd = msg_text[len(prefix_used):].split()[0].lower()
+            
+            cmd = getattr(event, "_command", "").lower()
             mode = COMMANDS_FORWARD.get(cmd)
             if not mode:
                 return
