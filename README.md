@@ -14,11 +14,11 @@
 
 ## ⚙️ Fitur Dasar
 
-✅ **Tanpa plugin** – Ringan dan langsung jalan  
+✅ **plugin** – Ringan dan langsung jalan  
 ✅ **Command otomatis** – Ketik di Telegram dengan awalan titik (.)  
 ✅ **Logging chat** – Semua pesan masuk dan keluar tercatat di terminal  
 ✅ **Khusus owner/reseller** – Fitur forward ke seluruh grup hanya untuk user tertentu  
-✅ **Mudah dikembangkan** – Bisa kamu ubah jadi sistem plugin kapan saja  
+✅ **Mudah dikembangkan** – Bisa kamu ubah jadi sistem Market dan ubot panel kapan saja  
 
 ---
 
@@ -28,8 +28,10 @@
 |----------|--------|
 | `.help` | Menampilkan menu bantuan |
 | `.ping` | Cek kecepatan respon bot |
-| `.id` | Menampilkan ID pengguna atau chat |
-| `.teruskan` / `.fw` | Forward pesan ke semua grup (hanya untuk owner/reseller) |
+| `$` | $ ls Menampilkan Data (hanya untuk owner) |
+| `.id` `.idgc` | Menampilkan ID pengguna atau chat |
+| `.bc` `.bcgc` `.all` | Forward pesan ke semua grup (hanya untuk owner/reseller) |
+| `.tourl` `.hd` `.removebg ` | Upload gambar to url Hd foto hapus background foto (ai) |
 
 ---
 
@@ -47,11 +49,11 @@ apt install python3 python3-pip git -y
 
 ### 3️⃣ Install dependensi Python
 ```bash
-pip install telethon colorama
+pip install -r requirements.txt
 ```
 ⚠️ Jika muncul error `externally-managed-environment`, gunakan:
 ```bash
-pip install telethon colorama --break-system-packages
+pip install -r requirements.txt --break-system-packages
 ```
 
 ---
@@ -88,6 +90,7 @@ Jika login berhasil ✅, maka bot akan langsung aktif dan menampilkan:
 ```
 fel/
 ├── Felix.py         # File utama userbot
+|  ├── plugins       # plugins
 ├── config.py        # Konfigurasi API dan Owner
 ├── requirements.txt # Dependensi Python (opsional)
 └── README.md        # Dokumentasi
