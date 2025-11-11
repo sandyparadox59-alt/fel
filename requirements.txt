@@ -1,2 +1,5 @@
 telethon
 colorama
+aiohttp
+filetype
+requests
