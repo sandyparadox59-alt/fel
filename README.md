@@ -7,7 +7,7 @@
   🔹 Dibuat sebagai base untuk pengembangan userbot modular
   <br><br>
   <a href="https://github.com/sandyparadox59-alt/fel"><img src="https://img.shields.io/github/stars/sandyparadox59-alt/fel?color=yellow&style=for-the-badge"></a>
-  <a href="https://t.me"><img src="https://img.shields.io/badge/Telegram-Join%20Chat-blue?style=for-the-badge&logo=telegram"></a>
+  <a href="https://t.me/GlobalBotzXD"><img src="https://img.shields.io/badge/Telegram-Join%20Chat-blue?style=for-the-badge&logo=telegram"></a>
 </div>
 
 ---
